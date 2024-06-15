@@ -16,14 +16,14 @@ app.use(fileUpload());
 
 const PORT = process.env.PORT || 8081;
 
-
+const predictController = require('./controllers/predictController');
 (async () => {
   const model = await loadModel();
   app.locals.model = model;
   
   app.use('/auth', authRoutes);
   app.use('/predict', predictRoutes);
-
+  app.get('/predict/histories', predictController.getPredictionHistories);
   app.use(errorHandlingMiddleware);
 
   app.listen(PORT, () => {

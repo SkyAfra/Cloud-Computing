@@ -2,6 +2,35 @@ const predictClassification = require('../services/inferenceService');
 const crypto = require('crypto');
 const storeData = require('../services/storeData');
 
+// controllers/predictController.js
+
+const { getFirestore } = require('firebase-admin/firestore');
+const db = getFirestore();
+
+const getPredictionHistories = async (req, res) => {
+  try {
+    const snapshot = await db.collection('predictions').get();
+    const histories = [];
+
+    snapshot.forEach(doc => {
+      histories.push({
+        id: doc.id,
+        history: doc.data()
+      });
+    });
+
+    res.status(200).json({
+      status: "success",
+      data: histories
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: error.message
+    });
+  }
+};
+
 async function postPredictHandler(req, res, next) {
   try {
     const { image } = req.files;
@@ -24,8 +53,8 @@ async function postPredictHandler(req, res, next) {
 
     res.status(201).json({
       status: 'success',
-      message: confidenceScore > 0.05 
-        ? 'Model is predicted successfully.' 
+      message: confidenceScore > 0.05
+        ? 'Model is predicted successfully.'
         : 'Model is predicted successfully but under threshold. Please use the correct picture',
       data,
     });
@@ -34,4 +63,7 @@ async function postPredictHandler(req, res, next) {
   }
 }
 
-module.exports = { postPredictHandler };
+module.exports = {
+  postPredictHandler,
+  getPredictionHistories
+};
