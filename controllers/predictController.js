@@ -38,7 +38,10 @@ async function postPredictHandler(req, res, next) {
 
     const { confidenceScore, label, explanation, suggestion } = await predictClassification(model, image);
     const id = crypto.randomUUID();
-    const createdAt = new Date().toISOString();
+
+    const date = new Date();
+    const formattedDate = new Intl.DateTimeFormat('en-EN', { dateStyle: 'full', timeStyle: 'long' }).format(date);
+  //  const createdAt = new Date().toISOString();
 
     const data = {
       id,
@@ -46,7 +49,7 @@ async function postPredictHandler(req, res, next) {
       explanation,
       suggestion,
       confidenceScore,
-      createdAt,
+      createdAt: formattedDate,
     };
 
     await storeData(id, data);
