@@ -91,3 +91,16 @@ The server will run on http://localhost:8080 by default.
    ```
    
    ![Screenshot 2024-06-05 010401](https://github.com/kenanargya/SkyAfra/assets/71255346/f647a4ac-252e-43ac-a6e3-96f66e0cfbe8)
+
+4. **Histories**
+   - URL: `/predict/histories`
+   - Method: `GET`
+   - Headers:
+      - Content-Type: `application/json`
+   - Body:
+   ```json
+   {}
+   ```
+   
+   ![image](https://github.com/SkyAfra/Cloud-Computing/assets/92387421/c6ae671a-d691-4ec4-bf1f-d7afd2c645e5)
+
